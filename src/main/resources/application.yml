@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  webclient:
+    baseUrl: https://api.example.com
+    max-in-memory-size: 1024KB
+    read-timeout: 10s
+    write-timeout: 10s
+    connect-timeout: 10s
+    # ssl:
+    #   trust-store: classpath:truststore.jks
+    #   trust-store-password: changeit
+    #   key-store: classpath:keystore.jks
+    #   key-store-password: changeit
+    # proxy:
+    #   host: proxy.example.com
+    #   port: 8080
+    #   username: myuser
+    #   password: mypass
+    # default-header:
+    #   Accept: application/json
+    #   Content-Type: application/json
+    # default-uri-variables:
+    #   variable1: value1
+    #   variable2: value2
