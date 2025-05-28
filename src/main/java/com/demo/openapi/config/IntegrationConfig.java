@@ -19,8 +19,8 @@ public class IntegrationConfig {
   public IntegrationFlow webSocketIntegrationFlow(ExternalMessageHandler externalMessageHandler) {
     return IntegrationFlow.from(webSocketChannel())
         // .transform(new StringToUpperCaseTransformer())
+        .split()
         .handle(externalMessageHandler, "webSocketMessageHandler")
         .get();
   }
-
 }

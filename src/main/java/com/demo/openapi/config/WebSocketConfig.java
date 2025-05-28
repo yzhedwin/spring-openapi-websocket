@@ -14,7 +14,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    registry.addHandler(webSocketHandler(), "/websocket-endpoint");
+    registry.addHandler(webSocketHandler(), "/websocket")
+            .setAllowedOrigins("*"); // Allow all origins for simplicity; adjust as needed
   }
 
   @Bean

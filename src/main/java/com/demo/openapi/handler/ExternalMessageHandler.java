@@ -9,6 +9,7 @@ public class ExternalMessageHandler {
 
   @ServiceActivator(inputChannel = "webSocketChannel")
   public void webSocketMessageHandler(Message<?> message) {
-    System.out.println("Received message: " + message.getPayload());
+    System.out.println("Received message in external message handler A: " + message.getPayload());
+    // Process the message as needed
   }
 }

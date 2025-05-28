@@ -17,16 +17,16 @@ public class MyWebSocketHandler implements WebSocketHandler {
   @Qualifier("webSocketChannel")
   private MessageChannel messageChannel;
 
+
   @Override
   public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     System.out.println("Connection established");
   }
 
-  @Override
+  @Override //Potentially split messages into different channels based on some criteria
   public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-    System.out.println("Received message: " + message.getPayload());
+    System.out.println("Received message in websocket listener: " + message.getPayload());
     messageChannel.send(MessageBuilder.withPayload(message.getPayload()).build());
-
   }
 
   @Override
