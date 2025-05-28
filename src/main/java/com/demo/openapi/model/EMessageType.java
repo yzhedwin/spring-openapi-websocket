@@ -1,4 +1,4 @@
-package com.test.openapi.model;
+package com.demo.openapi.model;
 
 public enum EMessageType {
  CHAT, 
