@@ -7,15 +7,20 @@ import org.springframework.integration.webflux.outbound.WebFluxRequestExecutingM
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.demo.openapi.config.WebClientConfig;
+import com.demo.openapi.model.GenericMessage;
+import com.demo.openapi.model.SchedulerModel;
+import com.demo.openapi.service.WebService;
 
 public class WebClientHandler {
   WebClientConfig config;
+  WebService webService;
 
-  public WebClientHandler(WebClientConfig config) {
+  public WebClientHandler(WebClientConfig config, WebService webService) {
     this.config = config;
+    this.webService = webService;
   }
 
-  @ServiceActivator(inputChannel = "reactiveHttpOutRequest")
+  @ServiceActivator(inputChannel = "apiRequestChannel")
   @Bean
   public WebFluxRequestExecutingMessageHandler reactiveOutbound(WebClient client) {
     WebFluxRequestExecutingMessageHandler handler = new WebFluxRequestExecutingMessageHandler(
@@ -23,5 +28,18 @@ public class WebClientHandler {
     handler.setHttpMethod(HttpMethod.POST);
     handler.setExpectedResponseType(String.class);
     return handler;
+  }
+
+  @ServiceActivator(inputChannel = "apiRequestChannel")
+  public void apiRequestHandler(GenericMessage message) {
+    // Process the message as needed
+    switch (message) {
+      case SchedulerModel schedulerModel -> {
+        webService.postSchedulerChange(schedulerModel)
+            .doOnSuccess(response -> System.out.println("Response: " + response))
+            .subscribe();
+      }
+      default -> System.out.println("Received message in WebClientHandler: " + message);
+    }
   }
 }

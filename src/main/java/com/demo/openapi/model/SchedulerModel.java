@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Message {
+public class SchedulerModel extends GenericMessage {
    private EMessageType type;
    private String content;
    private String sender;
