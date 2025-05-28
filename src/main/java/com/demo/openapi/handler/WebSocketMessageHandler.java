@@ -5,7 +5,7 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExternalMessageHandler {
+public class WebSocketMessageHandler {
 
   @ServiceActivator(inputChannel = "webSocketChannel")
   public void webSocketMessageHandler(Message<?> message) {

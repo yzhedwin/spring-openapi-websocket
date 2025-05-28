@@ -6,7 +6,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.demo.openapi.handler.MyWebSocketHandler;
+import com.demo.openapi.handler.WebSocketHandlerImpl;
 
 @Configuration
 @EnableWebSocket
@@ -15,12 +15,12 @@ public class WebSocketConfig implements WebSocketConfigurer {
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(webSocketHandler(), "/websocket")
-            .setAllowedOrigins("*"); // Allow all origins for simplicity; adjust as needed
+        .setAllowedOrigins("*"); // Allow all origins for simplicity; adjust as needed
   }
 
   @Bean
-  public MyWebSocketHandler webSocketHandler() {
-    return new MyWebSocketHandler();
+  public WebSocketHandlerImpl webSocketHandler() {
+    return new WebSocketHandlerImpl();
   }
 
 }

@@ -6,8 +6,8 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.messaging.MessageChannel;
 
-import com.demo.openapi.handler.ExternalMessageHandler;
-import com.demo.openapi.handler.WebClientHandler;
+import com.demo.openapi.handler.WebAPIHandler;
+import com.demo.openapi.handler.WebSocketMessageHandler;
 
 @Configuration
 public class IntegrationConfig {
@@ -22,7 +22,7 @@ public class IntegrationConfig {
   }
 
   @Bean
-  public IntegrationFlow webSocketIntegrationFlow(ExternalMessageHandler externalMessageHandler) {
+  public IntegrationFlow webSocketIntegrationFlow(WebSocketMessageHandler externalMessageHandler) {
     return IntegrationFlow.from(webSocketChannel())
         // .transform(new StringToUpperCaseTransformer())
         .split()
@@ -31,7 +31,7 @@ public class IntegrationConfig {
   }
 
   @Bean
-  public IntegrationFlow restAPIIntegrationFlow(WebClientHandler webClientHandler) {
+  public IntegrationFlow restAPIIntegrationFlow(WebAPIHandler webClientHandler) {
     return IntegrationFlow.from(apiRequestChannel())
         .split()
         // .transform()

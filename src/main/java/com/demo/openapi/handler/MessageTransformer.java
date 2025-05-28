@@ -1,8 +1,8 @@
 package com.demo.openapi.handler;
 
-import com.demo.openapi.model.GenericMessage;
+import com.demo.openapi.model.GenericMessageModel;
 
-public class EntityTransformer {
+public class MessageTransformer {
 
     // This class is intended to transform entities between different formats or
     // structures.
@@ -10,10 +10,10 @@ public class EntityTransformer {
     // You can implement transformation logic as needed.
 
     // Example transformation method (to be implemented):
-    public GenericMessage transform(Object message) {
+    public GenericMessageModel transform(Object message) {
         // Transformation logic here
         switch (message) {
-            case GenericMessage genericMessage -> {
+            case GenericMessageModel genericMessage -> {
                 return genericMessage; // Return as is if already a GenericMessage
             }
             default -> {
