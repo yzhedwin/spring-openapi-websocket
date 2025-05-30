@@ -1,4 +1,4 @@
-package com.demo.openapi.handler;
+package com.demo.openapi.handler.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -7,7 +7,7 @@ import org.springframework.integration.webflux.outbound.WebFluxRequestExecutingM
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.demo.openapi.config.WebClientConfig;
+import com.demo.openapi.config.web.WebClientConfig;
 import com.demo.openapi.model.GenericMessageModel;
 import com.demo.openapi.model.SchedulerModel;
 import com.demo.openapi.service.WebService;

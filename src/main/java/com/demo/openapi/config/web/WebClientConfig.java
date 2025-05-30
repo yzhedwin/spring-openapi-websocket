@@ -1,4 +1,4 @@
-package com.demo.openapi.config;
+package com.demo.openapi.config.web;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +15,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WebClientConfig {
-    
+
     private String baseUrl;
 
     public WebClientConfig() {
     }
+
     @Bean
     public WebClient webClient() {
         return WebClient.builder()

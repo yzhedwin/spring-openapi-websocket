@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+websocket:
+  protocol: ws
+  path: /test
+  port: 8001
+  host: localhost
+
 spring:
   webclient:
     baseUrl: https://api.example.com
