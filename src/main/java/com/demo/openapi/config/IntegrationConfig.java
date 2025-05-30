@@ -23,6 +23,7 @@ public class IntegrationConfig {
       ClientWebSocketContainer clientWebSocketContainer) {
     WebSocketInboundChannelAdapter adapter = new WebSocketInboundChannelAdapter(clientWebSocketContainer);
     adapter.setOutputChannel(receivedFromWebSocket());
+    adapter.setAutoStartup(false); // TODO: fix websocket exception when server is not running
     return adapter;
   }
 
@@ -57,13 +58,13 @@ public class IntegrationConfig {
 
   // API request channel (to send requests to the REST API)
   @Bean
-  public MessageChannel apiRequestChannel() {
+  public MessageChannel apiRequestChannelScheduleUpdated() {
     return new DirectChannel();
   }
 
   @Bean
   public IntegrationFlow restAPIIntegrationFlow(WebAPIHandler webClientHandler) {
-    return IntegrationFlow.from(apiRequestChannel())
+    return IntegrationFlow.from(apiRequestChannelScheduleUpdated())
         .split()
         // .transform()
         .handle(webClientHandler, "apiRequestHandler")

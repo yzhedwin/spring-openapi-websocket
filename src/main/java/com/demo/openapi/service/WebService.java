@@ -3,8 +3,6 @@ package com.demo.openapi.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.demo.openapi.model.SchedulerModel;
-
 import reactor.core.publisher.Mono;
 
 @Service
@@ -16,8 +14,8 @@ public class WebService {
 		this.webClient = webClient;
 	}
 
-	public Mono<String> postSchedulerChange(SchedulerModel schedulerModel) {
-		return this.webClient.post().uri("/scheduler").bodyValue(schedulerModel).retrieve().bodyToMono(String.class);
+	public Mono<String> postRequest(Object message, String endpoint) {
+		return this.webClient.post().uri(endpoint).bodyValue(message).retrieve()
+				.bodyToMono(String.class);
 	}
-
 }

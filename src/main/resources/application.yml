@@ -1,15 +1,15 @@
-server:
+server:  #Own server configuration
   port: 8080
 
-websocket:
+websocket: #Configure WebSocket connection to external service
   protocol: ws
-  path: /test
+  path: /test 
   port: 8001
   host: localhost
 
 spring:
   webclient:
-    baseUrl: https://api.example.com
+    baseUrl: http://localhost:3000 #External API base URL
     max-in-memory-size: 1024KB
     read-timeout: 10s
     write-timeout: 10s
