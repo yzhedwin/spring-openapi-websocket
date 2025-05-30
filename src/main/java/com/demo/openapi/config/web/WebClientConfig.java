@@ -17,6 +17,7 @@ import lombok.Setter;
 public class WebClientConfig {
 
     private String baseUrl;
+    private String endpointSchedule;
 
     public WebClientConfig() {
     }
@@ -28,4 +29,5 @@ public class WebClientConfig {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
+
 }

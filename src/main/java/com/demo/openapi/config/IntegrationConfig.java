@@ -1,5 +1,6 @@
 package com.demo.openapi.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.channel.DirectChannel;
@@ -63,11 +64,12 @@ public class IntegrationConfig {
   }
 
   @Bean
-  public IntegrationFlow restAPIIntegrationFlow(WebAPIHandler webClientHandler) {
-    return IntegrationFlow.from(apiRequestChannelScheduleUpdated())
+  public IntegrationFlow restAPIIntegrationFlow(WebAPIHandler webClientHandler,
+      @Qualifier("apiRequestChannelScheduleUpdated") MessageChannel apiRequestChannelScheduleUpdated) {
+    return IntegrationFlow.from(apiRequestChannelScheduleUpdated)
         .split()
         // .transform()
-        .handle(webClientHandler, "apiRequestHandler")
+        .handle(webClientHandler, "apiRequestHandlerForScheduleUpdate")
         .get();
   }
 }

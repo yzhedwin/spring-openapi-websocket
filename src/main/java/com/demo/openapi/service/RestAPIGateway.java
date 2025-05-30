@@ -3,9 +3,9 @@ package com.demo.openapi.service;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
-@Service
+@Controller
 public class RestAPIGateway {
 
     private final MessageChannel apiRequestChannelScheduleUpdated;
@@ -20,4 +20,5 @@ public class RestAPIGateway {
         System.out.println("Sending event to API");
         apiRequestChannelScheduleUpdated.send(MessageBuilder.withPayload(event).build());
     }
+
 }
