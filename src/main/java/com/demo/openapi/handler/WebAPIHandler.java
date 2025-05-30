@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.webflux.outbound.WebFluxRequestExecutingMessageHandler;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.demo.openapi.config.WebClientConfig;
@@ -11,6 +12,7 @@ import com.demo.openapi.model.GenericMessageModel;
 import com.demo.openapi.model.SchedulerModel;
 import com.demo.openapi.service.WebService;
 
+@Service
 public class WebAPIHandler {
   WebClientConfig config;
   WebService webService;

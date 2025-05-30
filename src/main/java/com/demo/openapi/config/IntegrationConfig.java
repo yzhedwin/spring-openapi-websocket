@@ -35,7 +35,7 @@ public class IntegrationConfig {
     return IntegrationFlow.from(apiRequestChannel())
         .split()
         // .transform()
-        .handle(webClientHandler, "webSocketMessageHandler")
+        .handle(webClientHandler, "apiRequestHandler")
         .get();
   }
 }
