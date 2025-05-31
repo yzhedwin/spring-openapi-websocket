@@ -5,7 +5,10 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Controller;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class RestAPIGateway {
 
     private final MessageChannel apiRequestChannelScheduleUpdated;
@@ -13,11 +16,11 @@ public class RestAPIGateway {
     public RestAPIGateway(
             @Qualifier("apiRequestChannelScheduleUpdated") MessageChannel apiRequestChannelScheduleUpdated) {
         this.apiRequestChannelScheduleUpdated = apiRequestChannelScheduleUpdated;
-        System.out.println("RestAPIGateway initialized with channel: " + apiRequestChannelScheduleUpdated);
+        log.info("RestAPIGateway initialized with channel: " + apiRequestChannelScheduleUpdated);
     }
 
     public void send(Object event) {
-        System.out.println("Sending event to API");
+        log.info("Sending event to API");
         apiRequestChannelScheduleUpdated.send(MessageBuilder.withPayload(event).build());
     }
 

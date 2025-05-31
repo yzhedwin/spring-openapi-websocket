@@ -16,6 +16,10 @@ public class WebService {
 
 	public Mono<String> postRequest(Object message, String endpoint) {
 		return this.webClient.post().uri(endpoint).bodyValue(message).retrieve()
-				.bodyToMono(String.class);
+				.bodyToMono(String.class).onErrorResume(fallback -> {
+					System.err.println("Error during request: " + fallback.getMessage());
+					return Mono.just("Fallback response due to error: " + fallback.getMessage());
+				});
+
 	}
 }

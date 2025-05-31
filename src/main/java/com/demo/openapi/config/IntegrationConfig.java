@@ -24,7 +24,7 @@ public class IntegrationConfig {
       ClientWebSocketContainer clientWebSocketContainer) {
     WebSocketInboundChannelAdapter adapter = new WebSocketInboundChannelAdapter(clientWebSocketContainer);
     adapter.setOutputChannel(receivedFromWebSocket());
-    adapter.setAutoStartup(false); // TODO: fix websocket exception when server is not running
+    adapter.setAutoStartup(false);
     return adapter;
   }
 
@@ -32,7 +32,7 @@ public class IntegrationConfig {
   public IntegrationFlow webSocketInboundFlow() {
     return IntegrationFlow
         .from(receivedFromWebSocket())
-        .handle("webSocketHandler", "handleIncomingMessage")
+        .handle("webSocketMessageHandler", "handle")
         .get();
   }
 
