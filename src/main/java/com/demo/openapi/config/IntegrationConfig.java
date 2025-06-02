@@ -1,7 +1,5 @@
 package com.demo.openapi.config;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,15 +7,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.websocket.ClientWebSocketContainer;
-import org.springframework.integration.websocket.ServerWebSocketContainer;
 import org.springframework.integration.websocket.inbound.WebSocketInboundChannelAdapter;
-import org.springframework.integration.websocket.outbound.WebSocketOutboundMessageHandler;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.web.socket.TextMessage;
 
 import com.demo.openapi.handler.web.WebAPIHandler;
-import com.demo.openapi.handler.ws.WebSocketServerHandler;
+import com.demo.openapi.handler.ws.WebSocketClientMessageHandler;
+import com.demo.openapi.handler.ws.WebSocketServerMessageHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,10 +37,10 @@ public class IntegrationConfig {
 
   @Bean
   @Profile({ "client", "test" })
-  public IntegrationFlow webSocketInboundFlow() {
+  public IntegrationFlow webSocketInboundFlow(WebSocketClientMessageHandler webSocketClientMessageHandler) {
     return IntegrationFlow
         .from(receivedFromWebSocket())
-        .handle("webSocketMessageHandler", "handle")
+        .handle(webSocketClientMessageHandler, "handle")
         .get();
   }
 
@@ -58,23 +53,10 @@ public class IntegrationConfig {
 
   @Bean
   @Profile("server")
-  public IntegrationFlow webSocketOutboundFlow(WebSocketServerHandler webSocketServerHandler) {
+  public IntegrationFlow webSocketOutboundFlow(WebSocketServerMessageHandler webSocketServerMessageHandler) {
     return IntegrationFlow
-        .from(transmitToWebSocket()) //todo cleanup
-        .handle(Message.class, (msg, headers) -> {
-          String payload = msg.getPayload().toString();
-          TextMessage message = new TextMessage(payload);
-          webSocketServerHandler.getSessions().forEach(session -> {
-                try {
-                  if (session.isOpen()) {
-                    session.sendMessage(message);
-                  }
-                  } catch (IOException e) {
-                    log.error("Error sending message to WebSocket session: " + session.getId(), e);
-                  }
-              });
-          return null; // No reply
-        })
+        .from(transmitToWebSocket()) // todo cleanup
+        .handle(webSocketServerMessageHandler, "sendMessageToAll")
         .get();
   }
 

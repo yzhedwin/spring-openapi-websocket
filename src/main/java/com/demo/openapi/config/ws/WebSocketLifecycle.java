@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Profile({"client", "test"})
+@Profile({ "client", "test" })
 @Component
 @Slf4j
 public class WebSocketLifecycle implements SmartLifecycle {

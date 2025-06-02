@@ -1,15 +1,7 @@
 package com.demo.openapi.config.ws;
 
-import java.net.URI;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.integration.websocket.ClientWebSocketContainer;
-import org.springframework.integration.websocket.ServerWebSocketContainer;
-import org.springframework.web.socket.client.WebSocketClient;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,12 +16,4 @@ public class WebSocketConfig {
     private String host;
     private int port;
     private int connectionTimeout;
-
-    @Bean
-    @Profile({ "client", "test" })
-    public ClientWebSocketContainer clientWebSocketContainer() {
-        WebSocketClient webSocketClient = new StandardWebSocketClient();
-        URI uri = URI.create(protocol + "://" + host + ":" + port + path);
-        return new ClientWebSocketContainer(webSocketClient, uri);
-    }
 }

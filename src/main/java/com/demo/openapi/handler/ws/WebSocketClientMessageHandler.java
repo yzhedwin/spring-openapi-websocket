@@ -8,14 +8,14 @@ import com.demo.openapi.event.WebSocketEvent;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Profile({"client", "test"})
+@Profile({ "client", "test" })
 @Component
 @Slf4j
-public class WebSocketMessageHandler {
+public class WebSocketClientMessageHandler {
 
     private final ApplicationEventPublisher publisher;
 
-    public WebSocketMessageHandler(ApplicationEventPublisher publisher) {
+    public WebSocketClientMessageHandler(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }
 

@@ -4,10 +4,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.openapi.event.APIEvent;
@@ -16,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Profile("server")
 @RestController
-@RequestMapping("/api/mmi/schedule")
 @Slf4j
 public class WebServerController {
 
@@ -25,7 +22,8 @@ public class WebServerController {
     public WebServerController(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }
-    @PostMapping
+
+    @PostMapping("/api/mmi/schedule")
     public ResponseEntity<String> postSchedule(@RequestBody String payload) {
         try {
             log.info(">>>> Incoming payload: {}", payload);

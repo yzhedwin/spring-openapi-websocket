@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Profile("server")
 @Slf4j
 @Getter
-public class WebSocketServerHandler implements WebSocketHandler {
+public class WebSocketServerMessageHandler implements WebSocketHandler {
 
     private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
 
@@ -51,5 +51,14 @@ public class WebSocketServerHandler implements WebSocketHandler {
     public boolean supportsPartialMessages() {
         return false;
     }
-}
 
+    public void sendMessageToAll(String message) {
+        for (WebSocketSession session : sessions) {
+            try {
+                session.sendMessage(new TextMessage(message));
+            } catch (IOException e) {
+                log.error("Error sending message to session {}: {}", session.getId(), e.getMessage());
+            }
+        }
+    }
+}
