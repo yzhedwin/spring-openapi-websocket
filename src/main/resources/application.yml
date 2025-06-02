@@ -9,6 +9,8 @@ websocket: #Configure WebSocket connection to external service
   connectionTimeout: 5
 
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:client}
   webclient:
     baseUrl: http://localhost:3000 #External API base URL
     endpointSchedule: /api/mmi/schedule #Endpoint for scheduling

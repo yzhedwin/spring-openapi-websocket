@@ -1,5 +1,6 @@
 package com.demo.openapi.handler.web;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Profile({"client", "test"})
 public class WebAPIHandler {
   private final WebClientConfig config;
   private final WebService webService;
@@ -32,16 +34,4 @@ public class WebAPIHandler {
         })
         .subscribe();
   }
-
-  // @ServiceActivator(inputChannel = "apiRequestChannel")
-  // @Bean
-  // public WebFluxRequestExecutingMessageHandler reactiveOutbound(WebClient
-  // client) {
-  // WebFluxRequestExecutingMessageHandler handler = new
-  // WebFluxRequestExecutingMessageHandler(
-  // config.getBaseUrl() + "/foo", client);
-  // handler.setHttpMethod(HttpMethod.POST);
-  // handler.setExpectedResponseType(String.class);
-  // return handler;
-  // }
 }

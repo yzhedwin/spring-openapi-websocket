@@ -3,6 +3,7 @@ package com.demo.openapi.config.web;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import lombok.Getter;
 import lombok.Setter;
 
+@Profile({"client", "test"})
 @Configuration
 @ConfigurationProperties(prefix = "spring.webclient")
 @Getter

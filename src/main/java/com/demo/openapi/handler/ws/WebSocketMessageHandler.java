@@ -1,12 +1,14 @@
 package com.demo.openapi.handler.ws;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.demo.openapi.event.WebSocketEvent;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Profile({"client", "test"})
 @Component
 @Slf4j
 public class WebSocketMessageHandler {

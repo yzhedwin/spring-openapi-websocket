@@ -1,11 +1,13 @@
 package com.demo.openapi.service;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
 @Service
+@Profile({"client", "test"})
 public class WebService {
 
 	private final WebClient webClient;

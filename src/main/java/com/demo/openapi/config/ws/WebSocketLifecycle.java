@@ -5,11 +5,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.context.SmartLifecycle;
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.websocket.inbound.WebSocketInboundChannelAdapter;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Profile({"client", "test"})
 @Component
 @Slf4j
 public class WebSocketLifecycle implements SmartLifecycle {
