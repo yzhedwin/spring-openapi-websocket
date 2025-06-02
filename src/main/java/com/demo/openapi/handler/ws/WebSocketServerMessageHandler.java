@@ -12,6 +12,9 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,13 +55,14 @@ public class WebSocketServerMessageHandler implements WebSocketHandler {
         return false;
     }
 
-    public void sendMessageToAll(String message) {
-        for (WebSocketSession session : sessions) {
-            try {
-                session.sendMessage(new TextMessage(message));
-            } catch (IOException e) {
-                log.error("Error sending message to session {}: {}", session.getId(), e.getMessage());
+    public void sendMessageToAll(Object message) {
+        final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        try {
+            for (WebSocketSession session : sessions) {
+                session.sendMessage(new TextMessage(mapper.writeValueAsString(message)));
             }
+        } catch (IOException e) {
+            log.error("Error serializing message: {}", e.getMessage());
         }
     }
 }
