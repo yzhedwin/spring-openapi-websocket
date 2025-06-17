@@ -7,6 +7,7 @@ websocket: #Configure WebSocket connection to external service
   port: 8001
   host: localhost
   connectionTimeout: 5
+  isEnabled: false
 
 spring:
   profiles:

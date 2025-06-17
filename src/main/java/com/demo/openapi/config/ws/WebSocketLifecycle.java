@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Profile;
 import org.springframework.integration.websocket.inbound.WebSocketInboundChannelAdapter;
@@ -21,6 +22,9 @@ public class WebSocketLifecycle implements SmartLifecycle {
     private boolean running = false;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
+    @Value("${websocket.isEnabled}")
+    boolean isEnabled;
+
     public WebSocketLifecycle(WebSocketInboundChannelAdapter adapter, WebSocketConfig webSocketConfig) {
         this.webSocketConfig = webSocketConfig;
         this.adapter = adapter;
@@ -28,7 +32,8 @@ public class WebSocketLifecycle implements SmartLifecycle {
 
     @Override
     public void start() {
-        scheduler.execute(this::attemptStart);
+        if (isEnabled)
+            scheduler.execute(this::attemptStart);
     }
 
     private void attemptStart() {
@@ -39,7 +44,8 @@ public class WebSocketLifecycle implements SmartLifecycle {
                 log.info("WebSocket connection established.");
             } catch (Exception e) {
                 log.error("WebSocket connection failed. Retrying in 5 seconds...");
-                scheduler.schedule(this::attemptStart, webSocketConfig.getConnectionTimeout(),
+                scheduler.schedule(this::attemptStart,
+                        webSocketConfig.getConnectionTimeout(),
                         TimeUnit.SECONDS);
             }
         }

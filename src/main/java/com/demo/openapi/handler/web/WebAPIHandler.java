@@ -1,10 +1,12 @@
 package com.demo.openapi.handler.web;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.integration.annotation.ServiceActivator;
+import java.util.List;
+
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import com.demo.common.model.ScheduledTask;
+import com.demo.common.model.SimpleAssetMission;
 import com.demo.openapi.config.web.WebClientConfig;
 import com.demo.openapi.service.WebService;
 
@@ -12,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Profile({"client", "test"})
 public class WebAPIHandler {
   private final WebClientConfig config;
   private final WebService webService;
@@ -22,16 +23,40 @@ public class WebAPIHandler {
     this.webService = webService;
   }
 
-  @ServiceActivator(inputChannel = "apiRequestChannelScheduleUpdated")
-  public void apiRequestHandlerForScheduleUpdate(Message<?> message) {
-    log.info("Received message in WebAPIHandler: " + message);
-    // Process the message as needed
-    webService.postRequest(message, config.getEndpointSchedule())
-        .doOnSuccess(response -> log.info("Response: " + response))
-        .onErrorResume(error -> {
-          log.error("Failed to send request: ");
-          return null; // Handle the error appropriately
-        })
-        .subscribe();
+  public void apiChannelSchedulePatch(ScheduledTask task) {
+    if (task.getName() != null) {
+      webService
+          .patchSimpleAssetMission(config.getEndpointSchedule(), "/updateTitle", task.getId(), task.getName())
+          .block();
+      return;
+    }
+    if (task.getStartTime() != null) {
+      log.debug("patched start time, {} {}", task.getStartTime(), task.getEndTime());
+
+      webService
+          .patchSimpleAssetMission(config.getEndpointSchedule(), "/updateStartTime", task.getId(),
+              task.getStartTime().toInstant().toEpochMilli())
+          .block();
+      if (task.getEndTime() != null) {
+        log.debug("patched duration, {} {}", task.getEndTime(), task.getDuration());
+        webService
+            .patchSimpleAssetMission(config.getEndpointSchedule(), "/updateDuration", task.getId(),
+                task.getDuration() * 1000)
+            .block();
+      }
+      return;
+    }
+  }
+
+  public void apiChannelSchedulePut(SimpleAssetMission mission) {
+    webService.putSimpleAssetMission(mission, config.getEndpointSchedule()).block();
+  }
+
+  public void apiChannelScheduleDelete(SimpleAssetMission mission) {
+    webService.deleteSimpleAssetMission(mission.getId(), config.getEndpointSchedule()).block();
+  }
+
+  public List<SimpleAssetMission> apiChannelScheduleGet(Message<?> mission) {
+    return webService.getAllSimpleAssetMission(config.getEndpointSchedule()).block();
   }
 }
